@@ -101,12 +101,39 @@
 
 <h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
 
-<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+<p>What I think about level sampling is that it takes into account the depth of the picture such that the image has a 3D perspective instead of looking 2D. In addition, taking into account level sampling makes the image look more realistic as it allows the human eye to see an image that is more realistic. We implemented texture mapping by taking if statements on psm and lsm. Using lsm to find the specific level of the triangle that we are trying to texture with, and to get the level, we used the following formula for it.</p>
+<img src="images/task6image1.png" align="middle" width="400px"/>
+<p>Increasing the number of sampling rates definitely decreases speed when loading an image, as well as it increases the memory usage as our sample buffer size increases by the sampling rate. Using the nearest_pixel sampling is faster than using the bilinear pixel sampling. Between pixel sampling and sampling rate, I think sampling rate uses more memory and takes more time when the sample_rate increases, but it has better antialiasing power. Comparing the level sampling with pixel sampling, I think the level sampling is a bit slower if level sampling is not L_ZERO, and it uses more memory by a little bit as it needs to call functions and need more memory for variable declarations. In terms of antialiasing, I think it gets better as long as there aren’t too many colors at one point in time. Lastly, between the level sampling and sampling rate, I think sampling rate is lower memory usage, faster speed because level sampling needs to do everything the same for loop as rasterize_triangle with only sampling rate along with computing the level sampling. In terms of antialiasing, I think higher level has worse antialiasing, but I think lower level has similar antialiasing/better performance for the level sampling.</p>
+<div align="middle">
+    <table style="width=100%">
+      <tr>
+        <td>
+          <img src="images/task6image2.png" align="middle" width="400px"/>
+          <figcaption align="middle">L_ZERO and P_NEAREST; supersample rate 1 per pixel.</figcaption>
+        </td>
+        <td>
+          <img src="images/task6image3.png" align="middle" width="400px"/>
+          <figcaption align="middle">L_ZERO and P_LINEAR; supersample rate 1 per pixel.</figcaption>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          <img src="images/task6image4.png" align="middle" width="400px"/>
+          <figcaption align="middle">L_NEAREST and P_LINEAR; supersample rate 1 per pixel.</figcaption>
+        </td>
+        <td>
+          <img src="images/task6image5.png" align="middle" width="400px"/>
+          <figcaption align="middle">L_NEARST and P_NEAREST; supersample rate 1 per pixel.</figcaption>
+        </td>
+      </tr>
+    </table>
+  </div>
 
 
 
 <h2 align="middle">Section III: Art Competition</h2>
-<p>Not participating in Art Competition</p>
+<p>Not participating in Art Competition.</p>
 
 </body>
 </html>
