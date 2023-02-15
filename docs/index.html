@@ -52,52 +52,61 @@
 
 <h3 align="middle">Part 3: Transforms</h3>
 
+<img src="images/task3image1.png" align="middle" width="400px"/>
+<p>This cubeman is waving, with its head slightly raised towards its left arm (from our perspective) due to its raised shoulders. Its right upper arm has a slight slant, and its right lower arm goes down straight with gravity.</p>
+
 
 
 <h2 align="middle">Section II: Sampling</h2>
 
 <h3 align="middle">Part 4: Barycentric coordinates</h3>
 
+<p>Suppose we have points A, B, and C on our triangle. For any other point (x,y), we can express this point as (x,y) = A+B +C for ++=1. Geometrically speaking, for any of the constants denoted by the Greek variables, the distance from (x,y) to the Greek variable’s corresponding vertex ( to A,  to B, and  to C), along the line perpendicular to the opposite edge, is equal to 1-greek for the Greek letters. For negative values on these variables, we will see that the given point will be outside the triangle. As an example of how this weighting works, take the figure below:</p>
+<img src="images/task4image1.png" align="middle" width="400px"/>
+<p>This image has the top-left vertex colored blue; let us label this vertex A with variable . As we move from that vertex to the right side of the triangle, we see the visual effects of  decreasing from 1 to 0.</p>
+
+
 
 <h3 align="middle">Part 5: "Pixel sampling" for texture mapping</h3>
+
+<p>Pixel sampling is the act of taking textures and projecting it onto our image. When we perform nearest pixel sampling, we round our given point to the nearest pixel to receive a texture for our given pixel. On the other hand, bilinear pixel sampling takes the four nearest sample locations from our given point (by using the ceiling and floor functions on the uv coordinates) and using two helper lerp functions to get our final lerp; the final result is an averaging of the pixels close to our given uv point.</p>
+<div align="middle">
+    <table style="width=100%">
+      <tr>
+        <td>
+          <img src="images/task5image1.png" align="middle" width="400px"/>
+          <figcaption align="middle">Nearest; supersample rate 1 per pixel.</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image2.png" align="middle" width="400px"/>
+          <figcaption align="middle">Bilinear; supersample rate 1 per pixel.</figcaption>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          <img src="images/task5image3.png" align="middle" width="400px"/>
+          <figcaption align="middle">Nearest; supersample rate 16 per pixel.</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image4.png" align="middle" width="400px"/>
+          <figcaption align="middle">Bilinear; supersample rate 16 per pixel.</figcaption>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <p>In the nearest pixel sampling pictures, we can see very distinct and crisp images with lines separating distinct colors, whereas in the bilinear pixel sampling pictures, we see more blended and blurred images with colors coming together. This is because nearest pixel sampling takes only the closest pixel, while the bilinear pixel sampling receives the four closest points and averages their values. When we have an image with a lot of colors close together, we will see a very large contrast between these two sampling methods.</p>
+
 
 
 <h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
 
 <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 
-<div align="middle">
-  <table style="width=100%">
-    <tr>
-      <td>
-        <img src="images/image1.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
-      </td>
-      <td>
-        <img src="images/image2.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td>
-        <img src="images/image3.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
-      </td>
-      <td>
-        <img src="images/image4.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
-      </td>
-    </tr>
-  </table>
-</div>
-
 
 
 <h2 align="middle">Section III: Art Competition</h2>
-<p>If you are not participating in the optional art competition, don't worry about this section!</p>
-
-<h3 align="middle">Part 7: Draw something interesting!</h3>
+<p>Not participating in Art Competition</p>
 
 </body>
 </html>
