@@ -38,6 +38,32 @@
 
 <h3 align="middle">Part 1: Rasterizing single-color triangles</h3>
 
+<p>We use a three line test to check if a point was inside the triangle. To do the three line test, we defined the line as two planes such that if L(x, y) > 0, then it’s above the line, = 0 on the line, and < 0 is below the line. With the line test along with the correct ordered pair of coordinates, we can check that a point is inside the triangle and on the edge of the triangle by setting L(x, y) >=0. Doing this to all three sides of the triangle and if all three returns true, then it means the point is inside the triangle. If a point is inside the triangle, then we use sample_buffer to set the color of the pixel. Our algorithm is the same as the one that checks each sample within the bounding box of the triangle which we use min{x0, x1, x2} as lower bound of x and max{x0, x1, x2} as the upper bound of x. Then, we use min{y0, y1, y2} as the lower bound of y and max{y0, y1, y2} as the upper bound of y.</p>
+<img src="images/task1image1.png" align="middle" width="400px"/>
+
+
+
+<h3 align="middle">Part 2: Antialiasing triangles</h3>
+
+<img src="images/task2image1.png" align="middle" width="400px"/>
+<p>We first use a width*height*sample_rate as our basic data structure for supersampling. Within the supersampling array, we decided to have the sampling of 1 pixel consecutively. We were able to do this with the following equation, (y*width + x)*sample_rate + m + (n*sqrt(sample_rate)), y as # of pixel downwards, x as # of pixel to the right, m as # of pixels to the sample within a pixel, and n as the number of samples downwards within a pixel all with 0 indexing. In order to do the supersampling, we had a for loop that would go through each pixel within the bounding box of the triangle and within each pixel, we created a for loop to sample at the sampling rate with sqrt(sample_rate)*sqrt(sample_rate). In order to check that a sample is within a triangle, we set the first sample as 1/(2*sqrt(sample_rate)), then after each iteration of the for loop, we would add it by 1/(sqrt(sample_rate)) such that it can check for the next sample. We used the inside function to check if the sample is inside the triangle, and if it is, then we use the following formula to set the color: (y*width + x)*sample_rate + m + (n*sqrt(sample_rate)). For averaging down, we collected the sum of the colors for the sample within the pixel, then dividing it by the sample_rate, and finally multiplying it by 255 to resolve to framebuffer. Supersampling is very useful for getting rid of jaggies because it does not work with 1 single color, but also it works with sample_rate colors which makes jaggies more natural. Having a higher sample_rate works well to antialias the triangles as it works well to make smoother jaggies.</p>
+
+
+
+<h3 align="middle">Part 3: Transforms</h3>
+
+
+
+<h2 align="middle">Section II: Sampling</h2>
+
+<h3 align="middle">Part 4: Barycentric coordinates</h3>
+
+
+<h3 align="middle">Part 5: "Pixel sampling" for texture mapping</h3>
+
+
+<h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
+
 <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 
 <div align="middle">
@@ -65,25 +91,6 @@
     </tr>
   </table>
 </div>
-
-
-<h3 align="middle">Part 2: Antialiasing triangles</h3>
-
-
-
-<h3 align="middle">Part 3: Transforms</h3>
-
-
-
-<h2 align="middle">Section II: Sampling</h2>
-
-<h3 align="middle">Part 4: Barycentric coordinates</h3>
-
-
-<h3 align="middle">Part 5: "Pixel sampling" for texture mapping</h3>
-
-
-<h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
 
 
 
