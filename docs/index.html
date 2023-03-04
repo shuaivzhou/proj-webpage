@@ -49,7 +49,7 @@
 
 <h2 align="middle">Overview</h2>
 <p>
-    YOUR RESPONSE GOES HERE
+  In this project, we implemented multiple functions to manipulate triangle meshes represented by half-edge data structures, and implement loop subdivision. We first implement a straightforward single iteration of Casteljau’s algorithm. From there, we implement a full calling of Castejau’s algorithm on a 3-dimensional level. Then, we implement Phong shading by using the cross products of vectors on triangles surrounding a given point, sum them up according to their weighted areas, and return that normalized vector. After, we created a function for edge flipping and edge splitting which will later on help with our upsampling function. We have encountered the most problems in edge flipping, edge splitting, and upsampling because those were the parts where it required the most code as well as a well-drawn reference picture to not mistakenly label edges wrong. We think that the most interesting thing that we learned from this is that mistakes can form a piece of art that we do not expect. It was very cool going through all the buggy figures of teapot, cubes, etc.
 </p>
 <br>
 
@@ -338,7 +338,7 @@
   Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  At first, we looped through all the vertices in the mesh in order to compute their new positions. We did this by looping through all the neighboring vertices given a vertex in the mesh, and summing up the positions of each of the neighboring vertices, then using the subdivision rule to calculate the new position of the vertex. With the newly computed edges, we computed the new positions for the edges. After, we split all of the existing edges in the mesh, then flipped all of the edges that were connected by an old vertex and a newly formed vertex. Lastly, we assigned the new vertices to the original mesh’s vertice’s positions.
 </p>
 <br>
 
@@ -347,7 +347,7 @@
   Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  The sharp corners and edges become smoother the more we do upsampling on the mesh. I think this is due to the fact that we are creating more vertices within the given figure which means that it will get more smooth. It’s like when we add more points to a regular polygon, it turns more and more into a circle. We can reduce the effect on the sharp corners and edges by splitting more of the cube’s edge towards the sharp corners and edges. This will make the faces near the corner’s be more naturally smooth towards the corners. Overall, the sharp corners with a lot of vertices near it will become more smooth (it will merge closer and closer into the nearest vertices).
 </p>
 <br>
 
@@ -356,7 +356,33 @@
   Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  I think that the cube can become more symmetrical if we do not apply any splitting or flipping. The reason why the original cube looks asymmetrical is because the edges on the face of the cube is not symmetric as it is not shown to be “X”, but it looks like “/” which means that the original cube is already asymmetrical which can only result in asymmetrical output even with a lot or little upsampling. The more splitting and flipping that we do, the more asymmetric the cube will become other than making the edge on the face into “X” instead of “/”. When we apply upsampling after making the face into “X” shape with the edges, it becomes more smooth than when we apply upsampling on the original cube.
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/proj2task6image1.png" align="middle" width="400px"/>
+          <figcaption>Loaded image</figcaption>
+        </td>
+        <td>
+          <img src="images/task6image2.png" align="middle" width="400px"/>
+          <figcaption>One iteration</figcaption>
+        </td>
+      </tr>
+      <br>
+      <tr align="center">
+        <td>
+          <img src="images/task6image3.png" align="middle" width="400px"/>
+          <figcaption>Two iterations</figcaption>
+        </td>
+        <td>
+          <img src="images/task6image4.png" align="middle" width="400px"/>
+          <figcaption>Three iterations</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -365,7 +391,7 @@
     If you have implemented any extra credit extensions, explain what you did and document how they work with screenshots.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    None.
 </p>
 <br>
 
@@ -375,7 +401,7 @@
     Save your best polygon mesh as partsevenmodel.dae in your docs folder and show us a screenshot of the mesh in your write-up.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Optional.
 </p>
 <br>
 
@@ -384,7 +410,7 @@
     Include a series of screenshots showing your original mesh and your mesh after one and two rounds of subdivision. If you have used custom shaders, include screenshots of your mesh with those shaders applied as well.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Optional.
 </p>
 <br>
 
@@ -393,7 +419,7 @@
     Describe what you have done to enhance your mesh beyond the simple humanoid mesh described in the tutorial.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Optional.
 </p>
 <br>
 
