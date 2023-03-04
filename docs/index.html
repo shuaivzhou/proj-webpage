@@ -253,7 +253,10 @@
   Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  For splitting, we used the following reference image to base my coding on. We first took care of the boundary case where  “e0” is on the boundary. Then, one trick that we used was that we had the halfedge, face, next, etc pointers to the original diagram and when we had to change some values to it, we would change those and comment out the ones that we did not change such that when we looked through the code to debug, it was easier to identify the errors.
+  <div align="middle">
+    <img src="images/proj2task5image1.png" align="middle" width="50%">
+  </div>
 </p>
 <br>
 
@@ -262,7 +265,25 @@
     Show screenshots of a mesh before and after some edge splits. 
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/task5image2.png" align="middle" width="400px"/>
+          <figcaption>Flat shading</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image3.png" align="middle" width="400px"/>
+          <figcaption>Flat shading</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image4.png" align="middle" width="400px"/>
+          <figcaption>Phong shading</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -271,7 +292,25 @@
     Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  <div align="middle">
+    <table style="width:100%">
+      <tr align="center">
+        <td>
+          <img src="images/task5image5.png" align="middle" width="400px"/>
+          <figcaption>Flat shading</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image6.png" align="middle" width="400px"/>
+          <figcaption>Flat shading</figcaption>
+        </td>
+        <td>
+          <img src="images/task5image7.png" align="middle" width="400px"/>
+          <figcaption>Phong shading</figcaption>
+        </td>
+      </tr>
+      <br>
+    </table>
+  </div>
 </p>
 <br>
 
@@ -280,7 +319,7 @@
     Write about your eventful debugging journey, if you have experienced one.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+  One debugging journey that we experienced was that we switched our reference picture in the middle of coding, but later on we realized that the two reference pictures had different face labels as well as some of the edge labels as well. After realizing this fact after a hard debugging process, we were able to fix the error quite quickly due to only using one reference picture instead of switching between two of them. One more bug that we found after running task 6 was that the diagram that we used somehow was erroring because once we removed the h6, h7, h8, and h9 which are twin edges of the boundary edges, we were able to mesh the polygons correctly. This was very difficult to figure out and we are still not too sure why that part is causing the error, but it took a lot of asking around, and a lot of trial and error.
 </p>
 <br>
 
@@ -289,7 +328,7 @@
     If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on boundary edges.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Not done.
 </p>
 <br>
 
