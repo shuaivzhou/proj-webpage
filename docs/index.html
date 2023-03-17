@@ -44,7 +44,7 @@
 <h2 align="middle">Minjune Kim and Shuai Victor Zhou, CS184</h2>
 
 <!-- Add Website URL -->
-<h2 align="middle">Website URL: <a href="TODO">TODO</a></h2>
+<h2 align="middle">Website URL: <a href="https://shuaivzhou.github.io/proj-webpage/ ">Project 3 URL</a></h2>
 
 <br><br>
 
@@ -97,7 +97,7 @@ Show images with normal shading for a few small .dae files. -->
   Walk through the ray generation and primitive intersection parts of the rendering pipeline.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  For generating rays, we first convert the cartesian coordinates onto the canonical sensor plane. We normalize the converted vector, then multiply it by the c2w vector, then normalize it again to find the normalized world_ray vector. To generate the pixel samples, we iterate through num_samples, and get a camera’s ray vector with some random noise. Then, we take the sum of all of the estimates of the rays in the scene, then at the end, divide it by the num_samples to get the average value of it.
 </p>
 <br>
 
@@ -105,7 +105,7 @@ Show images with normal shading for a few small .dae files. -->
   Explain the triangle intersection algorithm you implemented in your own words.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  Our triangle intersection algorithm first uses has_intersection which we use Moller Trumbore Algorithm to get the following values, {t, b1, b2}. With the values that we get, we check for their bounds such as t being in between r.min_t and r.max_t, and have b1, and b2 in between 0 and 1 inclusive. We return true if all the constraints satisfy, and if not, we return  false. In the intersect function, we use has_intersection to check if there exists an intersection between the triangle and the ray. If there happens to be an intersection, we use the Moller Trumbore Algorithm, again, to find {t, b1, b2} values. We check if the t value is less than r.max_t, and if it is, then we perform r.max_t = t. We can use {1- b1 - b2, b1, b2} along with {n1, n2, n3} to find the surface normal at the intersection. If it has an intersection, we return true, and if not, we return false.
 </p>
 <br>
 
@@ -117,22 +117,22 @@ Show images with normal shading for a few small .dae files. -->
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/CBempty.png" align="middle" width="400px"/>
+        <figcaption>CBempty.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/CBspheres.png" align="middle" width="400px"/>
+        <figcaption>CBspheres.dae</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example3.dae</figcaption>
+        <img src="images/cow.png" align="middle" width="400px"/>
+        <figcaption>cow.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example4.dae</figcaption>
+        <img src="images/CBcoil.png" align="middle" width="400px"/>
+        <figcaption>CBcoil.dae</figcaption>
       </td>
     </tr>
   </table>
@@ -149,7 +149,7 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  Our BVH construction algorithm has the base case of when the number of primitives in our current node is less than or equal to max_leaf_size, since any node with leaf count of no more than max_leaf_size must be a leaf. In this base case, we simply return our node containing primitives from start to end. Otherwise, we use a heuristic to determine which of the x-, y-, and z-axes we should split our remaining primitives across (splitting in half at the weighted centroid of that axis), and then recursively call the function again on the left half of the primitives and the right half of the primitives. Our heuristic is taking max+min-2*avg, which takes the distance between the maximum and the average and weights it heavily while providing a negative weight to the distance from the minimum to the average. This way, we strongly value one side’s variance and choose the axis that has a stronger skew for our recursive call in that iteration.
 </p>
 
 <h3>
@@ -160,22 +160,22 @@ Compare rendering times on a few scenes with moderately complex geometries with 
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/CBlucy.png" align="middle" width="400px"/>
+        <figcaption>CBlucy.dae (0.5464s)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/CBdragon.png" align="middle" width="400px"/>
+        <figcaption>CBdragon.dae (0.7675s)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example3.dae</figcaption>
+        <img src="images/maxplanck.png" align="middle" width="400px"/>
+        <figcaption>maxplanck.dae (0.8019s)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example4.dae</figcaption>
+        <img src="images/peter.png" align="middle" width="400px"/>
+        <figcaption>peter.dae (3.8394s)</figcaption>
       </td>
     </tr>
   </table>
@@ -185,8 +185,29 @@ Compare rendering times on a few scenes with moderately complex geometries with 
 <h3>
   Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
 </h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/CBspheres.png" align="middle" width="400px"/>
+        <figcaption>Without BVH: 0.3497s | With BVH: 0.2768s</figcaption>
+      </td>
+      <td>
+        <img src="images/cow.png" align="middle" width="400px"/>
+        <figcaption>Without BVH: 44.1443s | With BVH: 0.1219s</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/CBcoil.png" align="middle" width="400px"/>
+        <figcaption>Without BVH: 100.7003s | With BVH: 0.4254s</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
 <p>
-    YOUR RESPONSE GOES HERE
+  For CBspheres.dae, we see a very small increase in performance from 0.3497s to 0.2768s. However, when we get to cow.dae, we see a larger dropoff from 44.1443s to 0.1219s. With our third comparison of CBcoil.dae, our dropoff goes from a staggering 100.7003s to a mere 0.4254s. We see that in the files with moderately complex geometries, the rendering time with BVH acceleration becomes drastically improved compared to without BVH acceleration. This is because BVH acceleration allows us to eliminate calculations in cases where the ray does not intersect with the surface. By using BVH acceleration, we’re able to generate images with tens of thousands to hundreds of thousands of triangles, such as CBlucy.dae, CBdragon.dae, maxplanck.dae, and peter.dae.
 </p>
 <br>
 
