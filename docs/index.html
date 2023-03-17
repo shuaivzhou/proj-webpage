@@ -19,7 +19,7 @@
     color: #121212;
   }
 </style>
-<title>CS 184 Mesh Edit</title>
+<title>CS 184 Path Tracer</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
 
@@ -40,84 +40,204 @@
 <body>
 
 <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2023</h1>
-<h1 align="middle">Project 2: Mesh Edit</h1>
+<h1 align="middle">Project 3-1: Path Tracer</h1>
 <h2 align="middle">Minjune Kim and Shuai Victor Zhou, CS184</h2>
 
+<!-- Add Website URL -->
+<h2 align="middle">Website URL: <a href="TODO">TODO</a></h2>
+
 <br><br>
+
+
+<div align="center">
+  <table style="width=100%">
+      <tr>
+          <td align="middle">
+          <img src="images/example_image.png" width="480px" />
+          <figcaption align="middle">Results Caption: my bunny is the bounciest bunny</figcaption>
+      </tr>
+  </table>
+</div>
+
+<p>All of the text in your write-up should be <em>in your own words</em>. If you need to add additional HTML features to this document, you can search the <a href="http://www.w3schools.com/">http://www.w3schools.com/</a> website for instructions. To edit the HTML, you can just copy and paste existing chunks and fill in the text and image file names appropriately.</p>
+<o>The website writeup is intended to be a self-contained walkthrough of the assignment: we want this to be a piece of work which showcases your understanding of relevant concepts through both mesh images as well as written explanations about what you did to complete each part of the assignment. Try to be as clear and organized as possible when writing about your own output files or extensions to the assignment. We want to understand what you've achieved and how you've done it!</p> 
+<p>If you are well-versed in web development, feel free to ditch this template and make a better looking page.</p>
+
+
+<p>Here are a few problems students have encountered in the past. Test your website on the instructional machines early!</p>
+<ul>
+<li>Your main report page should be called index.html.</li>
+<li>Be sure to include and turn in all of the other files (such as images) that are linked in your report!</li>
+<li>Use only <em>relative</em> paths to files, such as <pre>"./images/image.jpg"</pre>
+Do <em>NOT</em> use absolute paths, such as <pre>"/Users/student/Desktop/image.jpg"</pre></li>
+<li>Pay close attention to your filename extensions. Remember that on UNIX systems (such as the instructional machines), capitalization matters. <pre>.png != .jpeg != .jpg != .JPG</pre></li>
+<li>Be sure to adjust the permissions on your files so that they are world readable. For more information on this please see this tutorial: <a href="http://www.grymoire.com/Unix/Permissions.html">http://www.grymoire.com/Unix/Permissions.html</a></li>
+<li>And again, test your website on the instructional machines early!</li>
+</ul>
+
+
+<p>Here is an example of how to include a simple formula:</p>
+<p align="middle"><pre align="middle">a^2 + b^2 = c^2</pre></p>
+<p>or, alternatively, you can include an SVG image of a LaTex formula.</p>
 
 <div>
 
 <h2 align="middle">Overview</h2>
 <p>
-  In this project, we implemented multiple functions to manipulate triangle meshes represented by half-edge data structures, and implement loop subdivision. We first implement a straightforward single iteration of Casteljau’s algorithm. From there, we implement a full calling of Castejau’s algorithm on a 3-dimensional level. Then, we implement Phong shading by using the cross products of vectors on triangles surrounding a given point, sum them up according to their weighted areas, and return that normalized vector. After, we created a function for edge flipping and edge splitting which will later on help with our upsampling function. We have encountered the most problems in edge flipping, edge splitting, and upsampling because those were the parts where it required the most code as well as a well-drawn reference picture to not mistakenly label edges wrong. We think that the most interesting thing that we learned from this is that mistakes can form a piece of art that we do not expect. It was very cool going through all the buggy figures of teapot, cubes, etc.
+    YOUR RESPONSE GOES HERE
 </p>
 <br>
 
+<h2 align="middle">Part 1: Ray Generation and Scene Intersection (20 Points)</h2>
+<!-- Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+Explain the triangle intersection algorithm you implemented in your own words.
+Show images with normal shading for a few small .dae files. -->
 
-<h2 align="middle">Section I: Bezier Curves and Surfaces</h2>
-
-<h3 align="middle">Part 1: Bezier Curves with 1D de Casteljau Subdivision</h3>
-
-
-<b>
-  Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.
-</b>
+<h3>
+  Walk through the ray generation and primitive intersection parts of the rendering pipeline.
+</h3>
 <p>
-  At a timestep t in de Casteljau’s algorithm where we have n points, the algorithm takes pairs of consecutive points and generates the new point between the two at timestep t+1, providing us with a set of n-1 new points. For a list with an n number of points (length n), we know that we will have to execute the algorithm an n-1 number of times to get to the next time step since there are n-1 consecutive pairs of points; thus, our implementation of the algorithm included a for-loop that runs n-1 times, adding each new execute of the lerp to the end of a vector that we created to represent the next time step.
+    YOUR RESPONSE GOES HERE
 </p>
 <br>
 
-
-<b>
-  Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below.
-</b>
+<h3>
+  Explain the triangle intersection algorithm you implemented in your own words.
+</h3>
 <p>
-  <div align="middle">
-    <img src="images/proj2task1image1.png" align="middle" width="50%">
-  </div>
+    YOUR RESPONSE GOES HERE
 </p>
-<!-- Example of including a single figure -->
-<!-- <div align="middle">
-  <img src="images/your_file.png" align="middle" width="50%">
-</div> -->
 <br>
 
-<b>
-  Show screenshots of each step / level of the evaluation from the original control points down to the final evaluated point. Press <kbd>E</kbd> to step through. Toggle <kbd>C</kbd> to show the completed Bezier curve as well.
-</b>
+<h3>
+  Show images with normal shading for a few small .dae files.
+</h3>
 <!-- Example of including multiple figures -->
 <div align="middle">
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/proj2task1image1.png" align="middle" width="400px"/>
-        <figcaption>Level 0</figcaption>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example1.dae</figcaption>
       </td>
       <td>
-        <img src="images/task1image2.png" align="middle" width="400px"/>
-        <figcaption>Level 1</figcaption>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example2.dae</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example3.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example4.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+
+<h2 align="middle">Part 2: Bounding Volume Hierarchy (20 Points)</h2>
+<!-- Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis. -->
+
+<h3>
+  Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+
+<h3>
+  Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example1.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example2.dae</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example3.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example4.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<h3>
+  Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration. Present your results in a one-paragraph analysis.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h2 align="middle">Part 3: Direct Illumination (20 Points)</h2>
+<!-- Walk through both implementations of the direct lighting function.
+Show some images rendered with both implementations of the direct lighting function.
+Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
+Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis. -->
+
+<h3>
+  Walk through both implementations of the direct lighting function.
+</h3>
+<p>
+    YOUR RESPONSE GOES HERE
+</p>
+
+<h3>
+  Show some images rendered with both implementations of the direct lighting function.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <!-- Header -->
+    <tr align="center">
+      <th>
+        <b>Uniform Hemisphere Sampling</b>
+      </th>
+      <th>
+        <b>Light Sampling</b>
+      </th>
+    </tr>
+    <br>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example1.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example1.dae</figcaption>
       </td>
     </tr>
     <br>
     <tr align="center">
       <td>
-        <img src="images/task1image3.png" align="middle" width="400px"/>
-        <figcaption>Level 2</figcaption>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example2.dae</figcaption>
       </td>
       <td>
-        <img src="images/task1image4.png" align="middle" width="400px"/>
-        <figcaption>Level 3</figcaption>
-      </td>
-    </tr>
-    <br>
-    <tr align="center">
-      <td>
-        <img src="images/task1image5.png" align="middle" width="400px"/>
-        <figcaption>Level 4</figcaption>
-      </td>
-      <td>
-        <img src="images/task1image6.png" align="middle" width="400px"/>
-        <figcaption>Level 5</figcaption>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example2.dae</figcaption>
       </td>
     </tr>
     <br>
@@ -125,302 +245,239 @@
 </div>
 <br>
 
-
-<b>
-  Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter \(t\) via mouse scrolling.
-</b>
+<h3>
+  Focus on one particular scene with at least one area light and compare the noise levels in <b>soft shadows</b> when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, <b>not</b> uniform hemisphere sampling.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="200px"/>
+        <figcaption>1 Light Ray (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="200px"/>
+        <figcaption>4 Light Rays (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="200px"/>
+        <figcaption>16 Light Rays (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="200px"/>
+        <figcaption>64 Light Rays (example1.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 <p>
-    If we move a point and modify the t parameter, we can get something that looks like this:
-    <div align="middle">
-      <img src="images/task1image7.png" align="middle" width="50%">
-    </div>
-</p>  
+    YOUR EXPLANATION GOES HERE
+</p>
 <br>
 
-
-<h3 align="middle">Part 2: Bezier Surfaces with Separable 1D de Casteljau</h3>
-<b>
-  Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces.
-</b>
+<h3>
+  Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
+</h3>
 <p>
-  For Bezier surfaces, de Casteljau algorithm operates very similarly to the way it operates for Bezier curves, except now we’re working in a 3-dimensional space. Just like before, we have a for-loop that runs for the size of our points minus one number of times for evaluatingStep, which simulates one step. In evaluate1D, we fully evaluate the algorithm on a vector of points by running until the size of our points is equal to 1. Finally, evaluate calls upon evaluate1D with u in the for-loop to generate the final vector, then calls upon evaluate1D again with v to generate the final point.
+    YOUR RESPONSE GOES HERE
 </p>
 <br>
 
 
-<b>
-  Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation.
-</b>
+<h2 align="middle">Part 4: Global Illumination (20 Points)</h2>
+<!-- Walk through your implementation of the indirect lighting function.
+Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
+
+<h3>
+  Walk through your implementation of the indirect lighting function.
+</h3>
 <p>
-  <div align="middle">
-    <img src="images/proj2task2image1.png" align="middle" width="50%">
-  </div>
+    YOUR RESPONSE GOES HERE
+</p>
+<br>
+
+<h3>
+  Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example1.dae</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>example2.dae</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<h3>
+  Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Only direct illumination (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
+</p>
+<br>
+
+<h3>
+  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 1 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 2 (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 3 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 100 (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
+</p>
+<br>
+
+<h3>
+  Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>1 sample per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>2 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>4 samples per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>8 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>16 samples per pixel (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>64 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>1024 samples per pixel (example1.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
 </p>
 <br>
 
 
-<h2 align="middle">Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+<h2 align="middle">Part 5: Adaptive Sampling (20 Points)</h2>
+<!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
 
-<h3 align="middle">Part 3: Area-Weighted Vertex Normals</h3>
-
-<b>
-  Briefly explain how you implemented the area-weighted vertex normals.
-</b>
+<h3>
+  Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+</h3>
 <p>
-  We first initialize a new Vector3D object, summed_vector. Then, we enter a while loop that runs across all triangles centered around our halfedge’s vertex. For each triangle, we acquire two vectors and add the weighted cross product of the two onto our summed_vector. Finally, after running through all of the triangles, we return the normalized summed_vector at the very end. One fun thing to notice is that if we return summed_vector not normalized, then the resulting figure will seem as if it’s extremely bright (everything is a very bright white).
+    YOUR RESPONSE GOES HERE
 </p>
 <br>
 
-
-<b>
-  Show screenshots of dae/teapot.dae (not .bez) comparing teapot shading with and without vertex normals. Use <kbd>Q</kbd> to toggle default flat shading and Phong shading.
-</b>
-<p>
-  <div align="middle">
-    <table style="width:100%">
-      <tr align="center">
-        <td>
-          <img src="images/proj2task3image1.png" align="middle" width="400px"/>
-          <figcaption>Without vector normals</figcaption>
-        </td>
-        <td>
-          <img src="images/task3image2.png" align="middle" width="400px"/>
-          <figcaption>With vector normals</figcaption>
-        </td>
-      </tr>
-      <br>
-    </table>
-  </div>
-</p>
-<br>
-
-
-<h3 align="middle">Part 4: Edge Flip</h3>
-<b>
-  Briefly explain how you implemented the edge flip operation and describe any interesting implementation / debugging tricks you have used.
-</b>
-<p>
-  The edge flip is implemented by first returning e0 if e0’s halfedge is a boundary. If it isn’t a boundary, then we assign pointers relating all of the elements of the initial setup of our e0: the halfedges, vertices, edges, and faces. Then, we take the flipped edge and remap all of the new relating elements, starting again with the halfedges (and reassigning their next(), twin(), vertex(), edge(), and face() pointers as we see necessary) and working through the vertices, edges, and faces (by reassigning their pointers to their halfedges).
-</p>
-<br>
-
-
-<b>
-  Show screenshots of the teapot before and after some edge flips.
-</b>
-<p>
-  <div align="middle">
-    <table style="width:100%">
-      <tr align="center">
-        <td>
-          <img src="images/proj2task4image1.png" align="middle" width="400px"/>
-          <figcaption>Before flipping (flat)</figcaption>
-        </td>
-        <td>
-          <img src="images/task4image2.png" align="middle" width="400px"/>
-          <figcaption>Before flipping (Phong)</figcaption>
-        </td>
-      </tr>
-      <br>
-      <tr align="center">
-        <td>
-          <img src="images/task4image3.png" align="middle" width="400px"/>
-          <figcaption>After flipping (flat)</figcaption>
-        </td>
-        <td>
-          <img src="images/task4image4.png" align="middle" width="400px"/>
-          <figcaption>After flipping (Phong)</figcaption>
-        </td>
-      </tr>
-      <br>
-    </table>
-  </div>
-</p>
-<br>
-
-
-<b>
-    Write about your eventful debugging journey, if you have experienced one.
-</b>
-<p>
-  One problem we had was that the code would bug out if we reassigned pointers after the flip to something that it was already pointing to. The way we realized that this was the problem was by returning e0 at different points along the reassigning process, and once we got to a section that it would bug on, we could pinpoint the exact problem. We were also aided in the process of assigning the pointers by drawing out diagrams of what the figure should look like before and after the edge flipping.
-</p>
-<br>
-
-
-<h3 align="middle">Part 5: Edge Split</h3>
-<b>
-  Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used.
-</b>
-<p>
-  For splitting, we used the following reference image to base my coding on. We first took care of the boundary case where  “e0” is on the boundary. Then, one trick that we used was that we had the halfedge, face, next, etc pointers to the original diagram and when we had to change some values to it, we would change those and comment out the ones that we did not change such that when we looked through the code to debug, it was easier to identify the errors.
-  <div align="middle">
-    <img src="images/proj2task5image1.png" align="middle" width="50%">
-  </div>
-</p>
-<br>
-
-
-<b>
-    Show screenshots of a mesh before and after some edge splits. 
-</b>
-<p>
-  <div align="middle">
-    <table style="width:100%">
-      <tr align="center">
-        <td>
-          <img src="images/task5image2.png" align="middle" width="400px"/>
-          <figcaption>Flat shading</figcaption>
-        </td>
-        <td>
-          <img src="images/task5image3.png" align="middle" width="400px"/>
-          <figcaption>Flat shading</figcaption>
-        </td>
-        <td>
-          <img src="images/task5image4.png" align="middle" width="400px"/>
-          <figcaption>Phong shading</figcaption>
-        </td>
-      </tr>
-      <br>
-    </table>
-  </div>
-</p>
-<br>
-
-
-<b>
-    Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
-</b>
-<p>
-  <div align="middle">
-    <table style="width:100%">
-      <tr align="center">
-        <td>
-          <img src="images/task5image5.png" align="middle" width="400px"/>
-          <figcaption>Flat shading</figcaption>
-        </td>
-        <td>
-          <img src="images/task5image6.png" align="middle" width="400px"/>
-          <figcaption>Flat shading</figcaption>
-        </td>
-        <td>
-          <img src="images/task5image7.png" align="middle" width="400px"/>
-          <figcaption>Phong shading</figcaption>
-        </td>
-      </tr>
-      <br>
-    </table>
-  </div>
-</p>
-<br>
-
-
-<b>
-    Write about your eventful debugging journey, if you have experienced one.
-</b>
-<p>
-  One debugging journey that we experienced was that we switched our reference picture in the middle of coding, but later on we realized that the two reference pictures had different face labels as well as some of the edge labels as well. After realizing this fact after a hard debugging process, we were able to fix the error quite quickly due to only using one reference picture instead of switching between two of them. One more bug that we found after running task 6 was that the diagram that we used somehow was erroring because once we removed the h6, h7, h8, and h9 which are twin edges of the boundary edges, we were able to mesh the polygons correctly. This was very difficult to figure out and we are still not too sure why that part is causing the error, but it took a lot of asking around, and a lot of trial and error.
-</p>
-<br>
-
-
-<b>
-    If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on boundary edges.
-</b>
-<p>
-    Not done.
-</p>
-<br>
-
-
-<h3 align="middle">Part 6: Loop Subdivision for Mesh Upsampling</h3>
-<b>
-  Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used.
-</b>
-<p>
-  At first, we looped through all the vertices in the mesh in order to compute their new positions. We did this by looping through all the neighboring vertices given a vertex in the mesh, and summing up the positions of each of the neighboring vertices, then using the subdivision rule to calculate the new position of the vertex. With the newly computed edges, we computed the new positions for the edges. After, we split all of the existing edges in the mesh, then flipped all of the edges that were connected by an old vertex and a newly formed vertex. Lastly, we assigned the new vertices to the original mesh’s vertice’s positions.
-</p>
-<br>
-
-
-<b>
-  Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?
-</b>
-<p>
-  The sharp corners and edges become smoother the more we do upsampling on the mesh. I think this is due to the fact that we are creating more vertices within the given figure which means that it will get more smooth. It’s like when we add more points to a regular polygon, it turns more and more into a circle. We can reduce the effect on the sharp corners and edges by splitting more of the cube’s edge towards the sharp corners and edges. This will make the faces near the corner’s be more naturally smooth towards the corners. Overall, the sharp corners with a lot of vertices near it will become more smooth (it will merge closer and closer into the nearest vertices).
-</p>
-<br>
-
-
-<b>
-  Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.
-</b>
-<p>
-  I think that the cube can become more symmetrical if we do not apply any splitting or flipping. The reason why the original cube looks asymmetrical is because the edges on the face of the cube is not symmetric as it is not shown to be “X”, but it looks like “/” which means that the original cube is already asymmetrical which can only result in asymmetrical output even with a lot or little upsampling. The more splitting and flipping that we do, the more asymmetric the cube will become other than making the edge on the face into “X” instead of “/”. When we apply upsampling after making the face into “X” shape with the edges, it becomes more smooth than when we apply upsampling on the original cube.
-  <div align="middle">
-    <table style="width:100%">
-      <tr align="center">
-        <td>
-          <img src="images/proj2task6image1.png" align="middle" width="400px"/>
-          <figcaption>Loaded image</figcaption>
-        </td>
-        <td>
-          <img src="images/task6image2.png" align="middle" width="400px"/>
-          <figcaption>One iteration</figcaption>
-        </td>
-      </tr>
-      <br>
-      <tr align="center">
-        <td>
-          <img src="images/task6image3.png" align="middle" width="400px"/>
-          <figcaption>Two iterations</figcaption>
-        </td>
-        <td>
-          <img src="images/task6image4.png" align="middle" width="400px"/>
-          <figcaption>Three iterations</figcaption>
-        </td>
-      </tr>
-      <br>
-    </table>
-  </div>
-</p>
-<br>
-
-
-<b>
-    If you have implemented any extra credit extensions, explain what you did and document how they work with screenshots.
-</b>
-<p>
-    None.
-</p>
-<br>
-
-
-<h3 align="middle">Part 7 (Optional, Possible Extra Credit)</h3>
-<b>
-    Save your best polygon mesh as partsevenmodel.dae in your docs folder and show us a screenshot of the mesh in your write-up.
-</b>
-<p>
-    Optional.
-</p>
-<br>
-
-
-<b>
-    Include a series of screenshots showing your original mesh and your mesh after one and two rounds of subdivision. If you have used custom shaders, include screenshots of your mesh with those shaders applied as well.
-</b>
-<p>
-    Optional.
-</p>
-<br>
-
-
-<b>
-    Describe what you have done to enhance your mesh beyond the simple humanoid mesh described in the tutorial.
-</b>
-<p>
-    Optional.
-</p>
+<h3>
+  Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (example1.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (example1.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (example2.dae)</figcaption>
+      </td>
+      <td>
+        <img src="images/your_file.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (example2.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
