@@ -84,7 +84,10 @@ Do <em>NOT</em> use absolute paths, such as <pre>"/Users/student/Desktop/image.j
 
 <h2 align="middle">Overview</h2>
 <p>
-    YOUR RESPONSE GOES HERE
+  For each part of this project, we looked at the reference slides to get most of the information needed in order to have the correct logic for our code. We began this project with just a simple generation of ray. With the ray, we checked if a ray intersected with a triangle or a sphere by using Moller Trumbore algorithm, and sphere intersection equation respectively. Secondly, we implemented a bounding volume hierarchy to make the rendering faster and optimize the ray-surface intersection process. By implementing this part, we were able to render an image with hundreds of thousands of triangles in only a couple seconds. Next, we implemented the illumination for zero bounce, one bounce, and at least one bounce radiance. For the one bounce radiance, we used Monte Carlo Integration to calculate the outgoing light. With these functions implemented, each image would take around a whole minute to render which is very long compared to before. Lastly, we implemented a very simple algorithm to enable adaptive sampling. With this implementation, we can see where there are high and low sampling rates which is pretty cool! 
+</p>
+<p>
+  In the process of implementing these functions, we have encountered many problems such as getting a single color for rendering a cow after implementing the bounding volume hierarchy, but we were able to solve it by noticing the problem was from normal_shading. Another problem that we had was that we were getting very dark images after implementing the at_least_one_bounce_radiance function. We were able to debug through this rendering problem by talking with peers as well as checking on previous intersection implementation of spheres.
 </p>
 <br>
 
@@ -416,7 +419,7 @@ You will probably want to use the instructional machines for the above renders i
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+  At m=0, we see that there are no reflections. Then, at m=1, we see the direct effect of the light on the room. At m=2, we begin to see a brighter room with a greater maximum ray depth, and from there, we see the greatest increase at 100.
 </p>
 <br>
 
