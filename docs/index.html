@@ -467,7 +467,27 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  Adaptive sampling allows us to sample less on locations that converge early on to their correct value. We take I =1.96* n for measuring the convergence on a specific location, where the 1.96 comes from our 95% confidence interval, sigma is the standard deviation of our samples thus far, and n is how many samples we’ve taken. Our test for convergence is done by testing if I≤maxTolerance*, where maxTolerance is some predetermined value and mu is the mean of our samples thus far. This can be thought of as I becoming smaller and thus converging when either sigma is small and thus we have a smaller 2 for our variance (meaning all values are similar) or the number of samples is large and we have found an adequate convergence.
+</p>
+<p>
+  Our implementation is done by adding onto our previous code for raytrace_pixel(). We introduce variables of s1, s2, sig, mu, I, and my_samples for the calculations. While iterating through our number of samples ns_aa, we calculate the illumination of our ray and add them to s1 and s2 to use the following equations:
+</p>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/5eq1.png" align="middle" width="400px"/>
+        <figcaption></figcaption>
+      </td>
+      <td>
+        <img src="images/5eq2.png" align="middle" width="400px"/>
+        <figcaption></figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  Then, after every samplesPerBatch samples (which we test for by taking the mod of my_samples against samplesPerBatch), we test if our convergence condition has been reached. If it doesn’t, we continue in our loop, and if it does, then we break out of our loop and update our values by taking my_samples to be the number of samples for this pixel.
 </p>
 <br>
 
@@ -479,22 +499,22 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Rendered image (example1.dae)</figcaption>
+        <img src="images/bunny.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (bunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (example1.dae)</figcaption>
+        <img src="images/bunny_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (bunny_rate.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Rendered image (example2.dae)</figcaption>
+        <img src="images/banana.png" align="middle" width="400px"/>
+        <figcaption>Rendered image (banana.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (example2.dae)</figcaption>
+        <img src="images/banana_rate.png" align="middle" width="400px"/>
+        <figcaption>Sample rate image (banana_rate.dae)</figcaption>
       </td>
     </tr>
   </table>
