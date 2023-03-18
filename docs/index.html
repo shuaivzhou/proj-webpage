@@ -221,7 +221,19 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   Walk through both implementations of the direct lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  In the estimate_direct_lighting_hemisphere function, we iterate through the num_samples, and for each iteration, we first check if the new ray going from hit_p in the sampled direction intersects with the light source. If it does intersect, we take the bsdf of wi and w_out, emission, pdf as 1/(2*PI) to use the following formula to calculate the outgoing light. Final point, we only do this calculation if cosine is positive.
+</p>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="images/3eq.png" align="middle" width="400px"/>
+        <figcaption></figcaption>
+      </td>
+  </table>
+</div>
+<p>
+  The estimate_direct_lighting_importance function is very similar to estimate_direct_lighting_hemisphere, but instead of having a set num_samples, we have to iterate through each of the light sources. During each iteration, we also want to iterate through ns_area_light to get the outgoing light. The calculation for outgoing light is the same as estimate_direct_lighting_hemisphere. After getting the outgoing light through ns_area_light iteration, we want to sum them with all the other iterations of the light source. Overall we are still using the Monte Carlo estimator, but we are just going through more for loops. Just a side note, when is_delta_light() returns true, we know that the light is coming from a point light source, so we can just set num_samples = 1 to save some time when we render an image.
 </p>
 
 <h3>
@@ -242,23 +254,23 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/3hemi_bunny.png" align="middle" width="400px"/>
+        <figcaption>bunny.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/3light_bunny.png" align="middle" width="400px"/>
+        <figcaption>bunny.dae</figcaption>
       </td>
     </tr>
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/3hemi_spheres.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/3light_spheres.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae</figcaption>
       </td>
     </tr>
     <br>
@@ -274,22 +286,22 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>1 Light Ray (example1.dae)</figcaption>
+        <img src="images/bunny1lightray.png" align="middle" width="200px"/>
+        <figcaption>1 Light Ray (bunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>4 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny4lightrays.png" align="middle" width="200px"/>
+        <figcaption>4 Light Rays (bunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>16 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny16lightrays.png" align="middle" width="200px"/>
+        <figcaption>16 Light Rays (bunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="200px"/>
-        <figcaption>64 Light Rays (example1.dae)</figcaption>
+        <img src="images/bunny64lightrays.png" align="middle" width="200px"/>
+        <figcaption>64 Light Rays (bunny.dae)</figcaption>
       </td>
     </tr>
   </table>
@@ -303,7 +315,7 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
   Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  Comparing the hemisphere sampling with the importance sampling, hemisphere sampling gives us more of a grainer image because we are taking samples from all directions around a single point. However, importance sampling prioritizes samples that contribute more to the result. This is done by sampling and integrating over from only the lights which can make sure that we are only taking samples from angles where incoming radiance is non-zero. This results in a much smoother image.
 </p>
 <br>
 
@@ -320,7 +332,7 @@ You will probably want to use the instructional machines for the above renders i
   Walk through your implementation of the indirect lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+  For our indirect lighting function, at_least_one_bounce_radiance, we had an initial check of the ray’s depth such that if it was 0, we would return a zero vector. If the ray depth is not 0, then we want to use one_bounce_radiance to have a guaranteed bounce within the function. After the guarantee bounce, we want to calculate the new ray. Before we continue with the russian roulette, with the newly generated ray, we want to make it one less depth than the current ray. Then, perform russian roulette to see if we want to continue the bounce. If we pass the russian roulette probability, we want to check if the new ray still intersects, and if it does, we do a recursive call on at_least_one_bounce_radiance with the inputs as the new ray and new intersection and sum the outgoing lights together. As always, we multiply and normalize the result. If it does not pass the russian roulette, we just return the outgoing light.
 </p>
 <br>
 
@@ -332,12 +344,12 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="images/direct_and_indirect_CBspheres_lambertian.png" align="middle" width="400px"/>
+        <figcaption>CBspheres_lambertian.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="images/direct_and_indirect_banana.png" align="middle" width="400px"/>
+        <figcaption>banana.dae</figcaption>
       </td>
     </tr>
   </table>
@@ -352,12 +364,12 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only direct illumination (example1.dae)</figcaption>
+        <img src="images/direct_spheres_lambertian.png" align="middle" width="400px"/>
+        <figcaption>Only direct illumination (CBspheres_lambertian.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+        <img src="images/indirect_spheres_lambertian.png" align="middle" width="400px"/>
+        <figcaption>Only indirect illumination (CBspheres_lambertian.dae)</figcaption>
       </td>
     </tr>
   </table>
@@ -504,7 +516,7 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
       </td>
       <td>
         <img src="images/bunny_rate.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (bunny_rate.dae)</figcaption>
+        <figcaption>Sample rate image (bunny.dae)</figcaption>
       </td>
     </tr>
     <tr align="center">
@@ -514,7 +526,7 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
       </td>
       <td>
         <img src="images/banana_rate.png" align="middle" width="400px"/>
-        <figcaption>Sample rate image (banana_rate.dae)</figcaption>
+        <figcaption>Sample rate image (banana.dae)</figcaption>
       </td>
     </tr>
   </table>
