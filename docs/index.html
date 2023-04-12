@@ -1,234 +1,338 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<style>  
-    div.padded {  
-      padding-top: 0px;  
-      padding-right: 100px;  
-      padding-bottom: 0.25in;  
-      padding-left: 100px;  
-    }  
-  </style> 
-<title>Minjune Kim, Shuai Zhou  |  CS 184</title>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>CS 184 Cloth Simulator</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
 </head>
+
+
 <body>
-<br />
-<h1 align="middle">Assignment 3-2: Additional Features to PathTracer</h1>
-    <h2 align="middle">Minjune Kim, Shuai Zhou</h2>
-    <h2 align="middle">https://shuaivzhou.github.io/proj-webpage/</h2>
 
-    <div class="padded">
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2013</h1>
+<h1 align="middle">Project 4: Cloth Simulator</h1>
+<h2 align="middle">Minjune Kim, Shuai Victor Zhou, CS184</h2>
 
-        
-        In project 3-2, we add on to our PathTracer from 3-1. In part 1, we implemented the reflective and refractive properties of different materials to allow for generation of images made of these materials. In part 4, we implement the simulation of thin lens for the ability to render the depth of field effect in our images, allowing us to simulate the effect of real cameras.
+<!-- Add Website URL -->
+<h2 align="middle">Website URL: <a href="https://shuaivzhou.github.io/proj-webpage/">Project 4 URL</a></h2>
 
+<br><br>
 
-        <h3 align="middle">Part 1. Mirror and Glass Materials</h3>
+<div>
 
-        <p><b>
-            Show a sequence of six images of scene `CBspheres.dae` rendered with `max_ray_depth` set to 0, 1, 2, 3, 4, 5, and 100. The other settings should be at least 64 samples per pixel and 4 samples per light. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            CBspheres.dae rendered at 64 samples with max ray depth of 0, 1, 2, 3, 4, 5, and 100.
-        </p>
-        <div align="middle">
-            <table style="width:100%">
-              <tr align="center">
-                <td>
-                  <img src="images/CBspheres0m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 0</figcaption>
-                </td>
-                <td>
-                  <img src="images/CBspheres1m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 1</figcaption>
-                </td>
-              </tr>
-              <tr align="center">
-                <td>
-                  <img src="images/CBspheres2m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 2</figcaption>
-                </td>
-                <td>
-                  <img src="images/CBspheres3m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 3</figcaption>
-                </td>
-              </tr>
-              <tr align="center">
-                <td>
-                  <img src="images/CBspheres4m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 4</figcaption>
-                </td>
-                <td>
-                  <img src="images/CBspheres5m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 5</figcaption>
-                </td>
-              </tr>
-              <tr align="center">
-                <td>
-                  <img src="images/CBspheres100m.png" align="middle" width="400px"/>
-                  <figcaption>CBspheres.dae, m = 100</figcaption>
-                </td>
-              </tr>
-            </table>
-          </div>
-        <br>
-        <p><b>
-            Point out the new multibounce effects that appear in each image. 
-        </b></p>
-        <p>
-            At 0 bounces, we have no light bounces in our image. At 1 bounce, we see colors of the room but no real refraction or reflection in our spheres. At 2 bounces, we see the mirror effect of the left sphere, and the right sphere begins seeing some reflective properties. At 3 bounces, the sphere sees some change (roof becomes colored) and the right sphere begins exhibiting its refractive properties. At 4 bounces, the rays from the refracted sphere get shown in the mirrored effect of it in the left sphere as well as the light spot on the right blue wall. At 5 bounces, we see no significant changes, and the same is true for 100 bounces.
-        </p>
-        <br>
-        <p><b>
-            Explain how these bounce numbers relate to the particular effects that appear. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            For 0 bounces, we only see the light source since there are no reflections that happen. When we get to 1 bounce, the colors of the room and the light on the black spheres are shown because we’re beginning to see the direct effect of light on its surroundings. Then, at 2 bounces, the room that was “generated” at 1 bounce gets shown in the left mirror sphere, and the right sphere sees small reflective properties. It is only at 3 bounces that we actually see the refractive properties of the right glass sphere, since the light needs to bounce within the sphere first before the light is refracted. At 3 bounces, we can also see the shadow of the glass sphere change according to its refractive properties. At 4 bounces, we see the secondary effects of the refractive sphere, i.e. the left mirror sphere begins reflecting the right spheres refractiveness, and the right wall has a spot of light from the sphere’s refraction. From there, at 5 bounces, if we zoomed in enough, we could perhaps see the right wall’s spot of light’s reflection in the left mirror sphere. However, there are few changes, and the same is true at 100 bounces. It is worth noting that the mirror sphere effectively reflects the changes to its surroundings one “step” late, i.e. changes at 2 bounces would be mirrored in the 3 bounces image.
-        </p>
-        <br>
+<h2 align="middle">Overview</h2>
+<p>In project 4, we simulate the motion of cloth in realistic settings. In part 1, we create our cloth as a grid of masses with springs (of types structural, shearing, and bending) between them for our model. In part 2, we calculate the forces experienced by each point mass. First, we calculate the external force experienced by the point masses, and then add each point mass’ individual spring correction forces to those external forces; this gives us the force experienced by each point mass at any given timestep. Next, we use Verlet integration to compute new mass positions at each time stamp using the equation:</p>
+<div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/overviewimage1.png" align="middle" width="400px"/>
+		  <figcaption></figcaption>
+		</td>
+	</table>
+  </div>
+<p>and constrain the positions by not allowing the springs to extend to more than 1.1 times their rest length. In part 3, we handle the way our cloth interacts/collides with spheres and planes by not allowing them to clip through them and instead applying a repellant force upon collision, and we also account for friction. In part 4, we handle self-collision of our cloth in a sped up fashion by hashing our cloth’s points and comparing each point’s location to other points within the same hash region. In part 5, we implement accelerated shaders by implementing diffuse shading, Blinn-Phong shading, texture mapping, displacement/bump mapping, and finally environment-mapped reflections.</p>
 
+<h2 align="middle">Part 1: Masses and springs</h2>
 
-        <h3 align="middle">Part 2. Microfacet Material</h3>
-        <p><b>
-            Show a screenshot sequence of 4 images of scene `CBdragon_microfacet_au.dae` rendered with $\alpha$ set to 0.005, 0.05, 0.25 and 0.5. The other settings should be at least 128 samples per pixel and 1 samples per light. The number of bounces should be at least 5. Describe the differences between different images. Note that, to change the $\alpha$, just open the .dae file and search for `microfacet`.
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        <p><b>
-            Show two images of scene `CBbunny_microfacet_cu.dae` rendered using cosine hemisphere sampling (default) and your importance sampling. The sampling rate should be fixed at 64 samples per pixel and 1 samples per light. The number of bounces should be at least 5. Briefly discuss their difference.
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        <p><b>
-            Show at least one image with some other conductor material, replacing `eta` and `k`. Note that you should look up values for real data rather than modifying them arbitrarily. Tell us what kind of material your parameters correspond to. 
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        
-        
-        
+<h3>
+	Take some screenshots of scene/pinned2.json from a viewing angle where you can clearly see the cloth wireframe to show the structure of your point masses and springs.
+  </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part1image1.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json structure</figcaption>
+		</td>
+	</table>
+  </div>
+  <br>
+  
+  <h3>
+	Show us what the wireframe looks like (1) without any shearing constraints, (2) with only shearing constraints, and (3) with all constraints.
+  </h3>
+ <!-- Example of including multiple figures -->
+ <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part1image2.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json without shearing</figcaption>
+		</td>
+		<td>
+		  <img src="images/part1image3.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json with only shearing</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part1image4.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json with all constraints</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <br>
+  
+  
+  <h2 align="middle">Part 2: Simulation via numerical integration</h2>
 
-        <h3 align="middle">Part 3. Environment Lightl</h3>
-        <b>Pick one *.exr* file to use for all subparts here. Include a converted *.jpg* of it in your website so we know what map you are using.</b>
-        
-        <p><b>
-            In a few sentences, explain the ideas behind environment lighting (i.e. why we do it/how it works).
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        <p><b>
-            Show the *probability_debug.png* file for the *.exr* file you are using, generated using the `save_probability_debug()` helper function after initializing your probability distributions.
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        <p><b>
-            Use the `bunny_unlit.dae` scene and your environment map *.exr* file and render two pictures, one with uniform sampling and one with importance sampling. Use 4 samples per pixel and 64 samples per light in each. Compare noise levels. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
-        <p><b>
-            Use a different image (if you did part 2, we recommend `bunny_microfacet_cu_unlit.dae`) and your environment map *.exr* file and render two pictures, one with uniform sampling and one with importance sampling. Use 4 samples per pixel and 64 samples per light in each. Compare noise levels. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            Parts 1 and 4 done.
-        </p>
-        <br>
+  <h3>
+	Experiment with some the parameters in the simulation. To do so, pause the simulation at the start with P, modify the values of interest, and then resume by pressing P again. You can also restart the simulation at any time from the cloth's starting position by pressing R. Describe the effects of changing the spring constant ks; how does the cloth behave from start to rest with a very low ks? A high ks? What about for density? What about for damping? For each of the above, observe any noticeable differences in the cloth compared to the default parameters and show us some screenshots of those interesting differences and describe when they occur.
+  </h3>
+  <p>
+	If we change the values of the spring constant ks, we’re changing how different “parts” of the cloth interact with each other. With a very low ks (we took 1 N/m), the spring force between any two given “points” on the cloth is much smaller than the external force(s) on the cloth, meaning that the spring force is almost invisible to the naked eye; this results in a cloth that falls completely flat with no visible creases. In the middle, at the default ks (5000 N/m), we see more of the springs’ effects on the cloth with more self-interactions in the cloth that result in more creases. On the other hand, when we have a very high ks (we took 99999 N/m), the spring forces become much more prevalent and create a “bouncing” effect as the cloth’s “points” continuously experience strong pushing and pulling forces. This results in a much more upright final position, with the cloth sagging less and less as our spring constant increases.
+  </p>
+  <p>
+	When changing the density, with extremely low densities (like 1 g/cm^2), we have a rather light cloth with light “components,” so we don’t see as many creases. At an intermediate point of density (such as the default 15 g/cm^2), we have more creases since the points experience more forces with their increased density and thus mass. With an extremely high density (99999 g/cm^2), the force of gravity on the “points” of the cloth becomes too great, and so the now-heavy cloth falls flat. Overall, the greater the density, the more the cloth will sag down.
+  </p>
+  <p>
+	Finally, with damping, we can change how we simulate conservation of energy in our system. With a damping of 0%, our cloth seems to exhibit a model of conservation of energy with no energy lost to heat/friction/sound/etc., so it continues to swing back and forth seemingly endlessly. At a damping of the default 0.20%, we see a more realistic simulation of the cloth falling, as it loses some of its energy to heat/friction/sound/etc., meaning that the potential energy isn’t always fully converted to kinetic energy. This results in the cloth falling to an eventual rest, but not before experiencing some form of a “swinging” back and forth. At a damping of 1%, the cloth falls more slowly since its kinetic energy becomes quickly lost, resulting in it not being able to build up a fast speed. Our cloth here will fall to a resting state on its first “swing” immediately.
+  </p>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part2image1.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, ks = 1 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image2.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, ks = 5000 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image3.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, ks = 99999 N/m</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part2image4.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Density = 1 g/cm^2</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image5.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Density = 15 g/cm^2</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image6.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Density = 99999 g/cm^2</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part2image7.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Damping = 0% (full swing)</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image8.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Damping = 0.2% (some swing)</figcaption>
+		</td>
+		<td>
+		  <img src="images/part2image9.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned2.json, Damping = 1% (no swing)</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  
+  <h3>
+	Show us a screenshot of your shaded cloth from scene/pinned4.json in its final resting state! If you choose to use different parameters than the default ones, please list them.
+  </h3>
+  <!-- Example of including multiple figures -->
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part2image10.png" align="middle" width="400px"/>
+		  <figcaption>scene/pinned4.json in its final resting state with default parameters</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <br>
+  
+  
+  <h2 align="middle">Part 3: Handling collisions with other objects</h2>
+  <!-- Walk through both implementations of the direct lighting function.
+  Show some images rendered with both implementations of the direct lighting function.
+  Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
+  Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis. -->
+  
+  <h3>
+	Show us screenshots of your shaded cloth from scene/sphere.json in its final resting state on the sphere using the default ks = 5000 as well as with ks = 500 and ks = 50000. Describe the differences in the results.
+  </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part3image1.png" align="middle" width="400px"/>
+		  <figcaption>scene/sphere.json, ks = 500 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part3image2.png" align="middle" width="400px"/>
+		  <figcaption>scene/sphere.json, ks = 5000 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part3image3.png" align="middle" width="400px"/>
+		  <figcaption>scene/sphere.json, ks = 50000 N/m</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <p>
+	I believe the difference is that ks determines how stiff the cloth is. If the ks value is higher, the cloth becomes stiffer which means that the cloth will not follow the shape of the object. If the ks value becomes lower, the cloth becomes more flexible and follows more of the structure of the object compared to a higher ks value.
+  </p>
+  
+  <h3>
+	Show us a screenshot of your shaded cloth lying peacefully at rest on the plane. If you haven't by now, feel free to express your colorful creativity with the cloth! (You will need to complete the shaders portion first to show custom colors.)
+  </h3>
+  <!-- Example of including multiple figures -->
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part3image4.png" align="middle" width="400px"/>
+		  <figcaption>scene/plane.json, normal shading</figcaption>
+		</td>
+		<td>
+		  <img src="images/part3image5.png" align="middle" width="400px"/>
+		  <figcaption>scene/plane.json, wire shading</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <br>
+  
+  
+  <h2 align="middle">Part 4: Handling self-collisions</h2>
+  <!-- Walk through your implementation of the indirect lighting function.
+  Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
+  Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
+  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
+  Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
+  You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
+  
+  <h3>
+	Show us at least 3 screenshots that document how your cloth falls and folds on itself, starting with an early, initial self-collision and ending with the cloth at a more restful state (even if it is still slightly bouncy on the ground).
+  </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part4image1.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, early</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image2.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, self-collision</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image3.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, ending</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <br>
+  
+  <h3>
+	Vary the density as well as ks and describe with words and screenshots how they affect the behavior of the cloth as it falls on itself.
+  </h3>
+  <!-- Example of including multiple figures -->
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part4image4.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 30 g/cm^2, ks = 500 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image5.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 30 g/cm^2, ks = 5000 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image6.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 30 g/cm^2, ks = 50000 N/m</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part4image7.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 70 g/cm^2, ks = 500 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image8.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 70 g/cm^2, ks = 5000 N/m</figcaption>
+		</td>
+		<td>
+		  <img src="images/part4image9.png" align="middle" width="400px"/>
+		  <figcaption>scene/selfCollision.json, density = 70 g/cm^2, ks = 50000 N/m</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <p>
+	Starting with the ks values, higher ks value makes the cloth more rigid so that when it falls down, it does not like to be together in one place compared to a lower ks value. When the ks value is high, the cloth tries to spread out more quickly, and when it comes to a rest position, it has less folds and less arches. Lower ks value tends to act the exact opposite of a high ks value. Next, for the density, higher density seemed like the cloth felt more heavier such that the cloth actually did not shift around that much from the time when the cloth fell to the plane up until its rest state. Lower density seemed like the cloth was more bouncy and it moved around way more compared to the higher density cloth. It also took longer for it to be stable as well.
+  </p>
+  <br>
+  
+  
+  <h2 align="middle">Part 5: Cloth Sim</h2>
+  <!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
+  Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
+  
+  <h3>
+	Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects.
+  </h3>
+  <br>
+  
+  <h3>
+	Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.
+  </h3>
+  <br>
 
+  <h3>
+	Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in /textures/.
+  </h3>
+  <br>
 
+  <h3>
+	Show a screenshot of bump mapping on the cloth and on the sphere. Show a screenshot of displacement mapping on the sphere. Use the same texture for both renders. You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that's not the default texture_2.png. Compare the two approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
+  </h3>
+  <br>
 
-        <h3 align="middle">Part 4. Depth of Field</h3>
-        <b>
-            For these subparts, we recommend using a microfacet BSDF scene to show off the cool out of focus effects you can get with depth of field!
-        </b>
-        <p><b>
-            In a few sentences, explain the differences between a pinhole camera model and a thin-lens camera model. 
-        </b></p>
-        <p>
-            The pinhole camera takes in lights that pass through a small aperture, and the camera assumes that light comes in straight, disregarding the lens distortion or optical aberration factors. The thin-lens camera takes in the light through the thin-lens, so it takes into account the lens distortion and optical aberration which is why the thin-lens camera model images look more blurry than the pinhole camera model images.
-        </p>
-        <br>
-        <p><b>
-            Show a "focus stack" where you focus at 4 visibly different depths through a scene. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            <div align="middle">
-                <table style="width:100%">
-                  <tr align="center">
-                    <td>
-                      <img src="images/CBdragon4.5d.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.23, d = 4.5</figcaption>
-                    </td>
-                    <td>
-                      <img src="images/CBdragon5.0d.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.23, d = 5.0</figcaption>
-                    </td>
-                  </tr>
-                  <tr align="center">
-                    <td>
-                      <img src="images/CBdragon3.5d.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.23, d = 3.5</figcaption>
-                    </td>
-                    <td>
-                      <img src="images/CBdragon4.0d.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.23, d = 4.0</figcaption>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-        </p>
-        <br>
-        <p><b>
-            Show a sequence of 4 pictures with visibly different aperture sizes, all focused at the same point in a scene. Make sure to include all screenshots.
-        </b></p>
-        <p>
-            <div align="middle">
-                <table style="width:100%">
-                  <tr align="center">
-                    <td>
-                      <img src="images/CBdragon010b.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.10, d = 4.5</figcaption>
-                    </td>
-                    <td>
-                      <img src="images/CBdragon025b.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.25, d = 4.5</figcaption>
-                    </td>
-                  </tr>
-                  <tr align="center">
-                    <td>
-                      <img src="images/CBdragon050b.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.50, d = 4.5</figcaption>
-                    </td>
-                    <td>
-                      <img src="images/CBdragon090b.png" align="middle" width="400px"/>
-                      <figcaption>CBdragon.dae, b = 0.90, d = 4.5</figcaption>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-        </p>
-        <br>
+  <h3>
+	Show a screenshot of your mirror shader on the cloth and on the sphere.
+  </h3>
+  <br>
 
-        <h3 align="middle">Partner</h3>
-        <p>
-            We split the project up with Victor mainly working on part 1 and Minjune mainly working on part 4. We realized from previous projects that if we were stuck, sometimes it was helpful if the other person came in with a fresh mind having not worked with the first person, as this would provide a potentially new perspective. Thus, we helped each other debug whenever we were stuck. This project helped us learn a lot in that it added on to what we had from project 3-1, acting effectively as building blocks on top of each other in our learning.
-        </p>
-        <br>
-
-    </div>
-</body>
-</html>
-
+  <h3>
+	Explain what you did in your custom shader, if you made one.
+  </h3>
+  <br>
+  
+  
+  <h2 align="middle">Partner</h2>
+  <p>
+	For this project, we worked on the parts together by meshing together our ideas, allowing us to debug our code quickly whenever we came across them. One problem we had was that we weren’t sure if the construction of our grid of point masses with their springs in part 1 was correct, so whenever we ran into a bug, we weren’t sure if the bug was in that part or actually just in part 1. Part 5 also was interesting for us as it felt like it had more of a connection to previous projects. Overall, this project was very beneficial for us as we learned how to build a physics simulation from start to finish, which is what we plan on doing for our final project.
+  </p>
+  
+  
+  </body>
+  </html>
