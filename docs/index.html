@@ -49,6 +49,10 @@
 
 <h2 align="middle">Part 1: Masses and springs</h2>
 
+<p>
+	In this part, we separate our code into two parts: when orientation is HORIZONTAL, and when orientation is VERTICAL. In both, we have a nested for loop iterating first over height and then over width. When it’s HORIZONTAL, our iteration is over the x-z plane, and we set our y to be a fixed 1. For each point, we test for if it’s pinned, and then place that point into point_masses. If it’s VERTICAL, we’re instead iterating over the x-y plane, and we set our z value for each point to a random value between -1/1000 to 1/1000 by creating a random value from -1000 to 1000 and then dividing it by 1000000. We then perform the same operations as in the HORIZONTAL case. Then, for the springs, we divide into the three classes: structural, shearing, and bending. For each one, we have two nested for loops to iterate through the entire cloth. For structural, the first nested for loop is for the point on the left of each point, and the second is for the point above each point. For shearing, the first is for the point to the top left, and the second is for the top right. For bending, the first is for the point two to the left, and the second is for two above. Our problem initially was in how we were calculating our random number, as it generated problems for our part 4 cloth rendering. We were able to overcome this by changing how we were calculating my_rand, performing it divided by 1000000 as opposed to 1 over it.
+</p>
+
 <h3>
 	Take some screenshots of scene/pinned2.json from a viewing angle where you can clearly see the cloth wireframe to show the structure of your point masses and springs.
   </h3>
@@ -91,6 +95,10 @@
   
   
   <h2 align="middle">Part 2: Simulation via numerical integration</h2>
+
+  <p>
+	We began with calculating the total external force of each point mass. Then, we took in consideration the spring correction forces. We took that into account in order to calculate the total force that is exerted on each of the point masses. We made sure that the bending constraint was weaker than the shearing and the structural constraints. Then, we used Verlet integration to compute the new point mass’s position in order to keep the points up to date. One part that we had to make sure to be careful of is that we needed to make sure that we used the total force exerted on the point mass instead of just the external forces when calculating the new position of the point mass. Lastly, we made sure that after each position update, the two point masses’ positions were at most 10% of the rest length. If one of the point masses is pinned, then we do not move that point mass, and if they are both not pinned, then we move both point masses with the same amount.
+  </p>
 
   <h3>
 	Experiment with some the parameters in the simulation. To do so, pause the simulation at the start with P, modify the values of interest, and then resume by pressing P again. You can also restart the simulation at any time from the cloth's starting position by pressing R. Describe the effects of changing the spring constant ks; how does the cloth behave from start to rest with a very low ks? A high ks? What about for density? What about for damping? For each of the above, observe any noticeable differences in the cloth compared to the default parameters and show us some screenshots of those interesting differences and describe when they occur.
@@ -169,11 +177,11 @@
   
   
   <h2 align="middle">Part 3: Handling collisions with other objects</h2>
-  <!-- Walk through both implementations of the direct lighting function.
-  Show some images rendered with both implementations of the direct lighting function.
-  Focus on one particular scene with at least one area light and compare the noise levels in soft shadows when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) using light sampling, not uniform hemisphere sampling.
-  Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis. -->
-  
+
+  <p>
+	For collision with spheres, we first got the distance between the position of the point mass and the origin of the sphere. If the point mass’s position is within the radius of the sphere, then we change the point mass’s position to a little bit outside the sphere by getting the total distance towards the same direction of the point mass’s position and moving it by a little bit by scaling it with friction force. For this part, we had no trouble getting through it. For collision with a plane, we did the same thing as a sphere, but we used the ray-intersection with plane equation to make sure that the point mass's position was above the plane and it says above the plane. If the point mass’s position gets closer to the plane, then we make sure to change the point mass’s position such that it will stay above the surface of the plane. For this, our cloth was falling very slowly, so we made sure that the t value that is the constant that is getting multiplied by the vector is low enough for the point mass’s position to change. Other than the cloth falling down too slowly, we did not have a problem with this part.
+  </p>
+
   <h3>
 	Show us screenshots of your shaded cloth from scene/sphere.json in its final resting state on the sphere using the default ks = 5000 as well as with ks = 500 and ks = 50000. Describe the differences in the results.
   </h3>
@@ -221,13 +229,11 @@
   
   
   <h2 align="middle">Part 4: Handling self-collisions</h2>
-  <!-- Walk through your implementation of the indirect lighting function.
-  Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.
-  Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel. (You will have to edit PathTracer::at_least_one_bounce_radiance(...) in your code to generate these views.)
-  For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, and 100 (the -m flag). Use 1024 samples per pixel.
-  Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.
-  You will probably want to use the instructional machines for the above renders in order to not burn up your own computer for hours. -->
-  
+
+  <p>
+	For this part, we had a problem with the build_spatial_map because we did not know how to build the spatial map because it had like vector<PointMass*>*, but I did not know how to add point mass to this vector, so it took us a while to figure this out. We asked classmates about this part, and we were able to figure it out. Then, self-collide was a bit of a problem because we thought that we had the code correct for this part, but when we changed the variables such that it was easier to read, it worked. We think that this was a problem on our part because we kept reusing the variables instead of just creating a new variable for our calculation. Our hashing was good from the start, so we were fine with the hashes.
+  </p>
+
   <h3>
 	Show us at least 3 screenshots that document how your cloth falls and folds on itself, starting with an early, initial self-collision and ending with the cloth at a more restful state (even if it is still slightly bouncy on the ground).
   </h3>
@@ -294,37 +300,166 @@
   
   
   <h2 align="middle">Part 5: Cloth Sim</h2>
-  <!-- Explain adaptive sampling. Walk through your implementation of the adaptive sampling.
-  Pick one scene and render it with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. Use 1 sample per light and at least 5 for max ray depth. -->
-  
+
+  <p>
+	Overview of code w/ problems.
+  </p>
+
   <h3>
 	Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects.
   </h3>
+  <p>
+	Explanation.
+  </p>
   <br>
   
   <h3>
 	Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.
   </h3>
+  <p>
+	Explanation.
+  </p>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image13.png" align="middle" width="400px"/>
+		  <figcaption>Blinn-Phong, ambient only</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image14.png" align="middle" width="400px"/>
+		  <figcaption>Blinn-Phong, diffuse only</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image15.png" align="middle" width="400px"/>
+		  <figcaption>Blinn-Phong, specular only</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image16.png" align="middle" width="400px"/>
+		  <figcaption>Blinn-Phong, entire model</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
   <br>
 
   <h3>
 	Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in /textures/.
   </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image17.png" align="middle" width="400px"/>
+		  <figcaption>Texture mapping shader with custom texture</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
   <br>
 
   <h3>
 	Show a screenshot of bump mapping on the cloth and on the sphere. Show a screenshot of displacement mapping on the sphere. Use the same texture for both renders. You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that's not the default texture_2.png. Compare the two approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
   </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image1.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, bump, default</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image2.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, bump, -o 16 -a 16</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image3.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, bump, -o 128 -a 128</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image4.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, displacement, default</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image5.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, displacement, -o 16 -a 16</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image6.png" align="middle" width="400px"/>
+		  <figcaption>Before falling, displacement, -o 128 -a 128</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image7.png" align="middle" width="400px"/>
+		  <figcaption>After falling, bump, default</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image8.png" align="middle" width="400px"/>
+		  <figcaption>After falling, bump, -o 16 -a 16</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image9.png" align="middle" width="400px"/>
+		  <figcaption>After falling, bump, -o 128 -a 128</figcaption>
+		</td>
+	  </tr>
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image10.png" align="middle" width="400px"/>
+		  <figcaption>After falling, displacement, default</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image11.png" align="middle" width="400px"/>
+		  <figcaption>After falling, displacement, -o 16 -a 16</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image12.png" align="middle" width="400px"/>
+		  <figcaption>After falling, displacement, -o 128 -a 128</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
+  <p>
+	Compare approaches and results.
+  </p>
+  <p>
+	Compare two shaders' reactions to sphere mesh coarseness changes.
+  </p>
   <br>
 
   <h3>
 	Show a screenshot of your mirror shader on the cloth and on the sphere.
   </h3>
+  <div align="middle">
+	<table style="width:100%">
+	  <tr align="center">
+		<td>
+		  <img src="images/part5image18.png" align="middle" width="400px"/>
+		  <figcaption>Cloth on sphere</figcaption>
+		</td>
+		<td>
+		  <img src="images/part5image19.png" align="middle" width="400px"/>
+		  <figcaption>Sphere only</figcaption>
+		</td>
+	  </tr>
+	</table>
+  </div>
   <br>
 
   <h3>
 	Explain what you did in your custom shader, if you made one.
   </h3>
+  <p>
+	N/A
+  </p>
   <br>
   
   
