@@ -302,14 +302,14 @@
   <h2 align="middle">Part 5: Cloth Sim</h2>
 
   <p>
-	Overview of code w/ problems.
+	For diffuse shading, we used the equation given to us by the specs, but we set the kd as (1.0, 1.0, 1.0) because that was what it was recommended in Ed. Then, we calculated the “r” variable by getting the distance from the light source’s position to the output vector’s position. Then, for n, we had to normalize the normal vector in order for the diffuse lighting to work. For Blinn-Phong Shading, we set the ka, kd, ks, Ia, and p to the recommended numerical values from Ed. Then, the rest of the calculation just followed the steps for Diffuse shading. We were a bit confused about this part because the kd values were a vector for the diffuse shading, but for Phong shading, it was a float value. We were able to resolve this conflict by looking through ed and understanding why it works with both vector and float values. Texture mapping and Environment-mapped Reflection was straightforward as we just used the texture built-in function. For bump mapping, we calculate our dU and dV with our texture coordinates and our width and height, then use an application of the TBN matrix for our new normal vector to use. For displacement mapping, we take what we had from bump mapping and change the position by n*h(u,v)*k_h.
   </p>
 
   <h3>
 	Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects.
   </h3>
   <p>
-	Explanation.
+	A shader program allows for renderings of realistic lighting to run in parallel to speed up the runtime of our program. Vertex shaders change properties of the vertices (position, normal vectors, etc.), and fragment shaders take in the fragments’ attributes from the vertex shader to compute the color.
   </p>
   <br>
   
@@ -317,7 +317,7 @@
 	Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.
   </h3>
   <p>
-	Explanation.
+	For Blinn-Phong shading, we took into consideration of the ambient light component and specular reflection component to the diffuse lighting to create a more realistic view of the sphere over the cloth because only with the diffuse lighting, it does not recreate the realistic view, and with the ambient light and specular reflection component, it shows more realistic view. With Blinn-Phong shading, as we took into account the angle between the source position and the surface normal, as well as the light source position, we were able to create a more realistic and accurate real life image.
   </p>
   <div align="middle">
 	<table style="width:100%">
@@ -428,10 +428,10 @@
 	</table>
   </div>
   <p>
-	Compare approaches and results.
+	With bump mapping, the normal vectors of our object are modified to make it appear as if details (through the bumps) are present. On the other hand, with displacement mapping, the normals are modified and the vertices have the position changed for the height map.
   </p>
   <p>
-	Compare two shaders' reactions to sphere mesh coarseness changes.
+	For displacement mapping, our sphere is evidently much bumpier than the sphere in bump mapping, and once the cloth falls down, the folds for displacement mapping are also larger. Furthermore, when we change the sphere mesh’s coarseness, the image we see with -o 128 -a 128 is clearer than -o 16 -a 16.
   </p>
   <br>
 
