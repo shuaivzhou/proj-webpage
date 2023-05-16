@@ -4,24 +4,12 @@
 	<body>
 		<h3>CS184/284A Project Webpages</h3>
 		<br><br>
-		<a href="/proj1/index.html">Project 1</a>
-		<br><br>
-		<a href="/proj2/index.html">Project 2</a>
-		<br><br>
-		<a href="/proj3-1/index.html">Project 3-1</a>
-		<br><br>
-		<a href="/proj3-2/index.html">Project 3-2</a>
-		<br><br>
-		<a href="/proj4/index.html">Project 4</a>
-	</body>
-	<script>
-		var links = document.body.getElementsByTagName("a")
-		var a = window.location.href.indexOf(".io")
-		var repo_name = window.location.href.substring(a+3)
-		for(var i = 0; i < links.length; i++){
-			var link = links[i]
-			var actual_name = link.href.substring(link.href.indexOf(".io")+4)
-			link.href = repo_name + actual_name
-		}
-	</script>
+		<ul>
+			<li><a href="./index.html" target="_self" rel="noopener noreferrer">Home</a></li>
+			<li><a href="./proj1/index.html" target="_self" rel="noopener noreferrer">Project 1: Rasterizer</a></li>
+			<li><a href="./proj2/index.html" target="_self" rel="noopener noreferrer">Project 2: Mesh Edit</a></li>
+			<li><a href="./proj3-1/index.html" target="_self" rel="noopener noreferrer">Project 3-1: Path Tracer</a></li>
+			<li><a href="./proj3-2/index.html" target="_self" rel="noopener noreferrer">Project 3-2: Additional Features to PathTracer</a></li>
+			<li><a href="./proj4/index.html" target="_self" rel="noopener noreferrer">Project 4: Cloth Simulator</a></li>
+		</ul>
 </html>
